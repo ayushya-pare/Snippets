@@ -35,32 +35,26 @@ def analyze_dataframe(df):
     
     # Statistics and detection of outliers for each numerical column
     print("\nStatistics and Outliers for each column:")
-    for column in df.select_dtypes(include=[np.number]).columns:
-        print(f"\nStatistics for {column}:")
-        print(df[column].describe())
+    #for column in df.select_dtypes(include=[np.number]).columns:
+    #    print(f"\nStatistics for {column}:")
+    print(df[column].describe())
 
     # Visualization of distributions
-    num_cols = df.select_dtypes(include=[np.number]).columns.size
-    cat_cols = df.select_dtypes(include=['object', 'category']).columns.size
-    
-    total_cols = num_cols + cat_cols
-    cols_per_row = 3
-    rows = (total_cols + cols_per_row - 1) // cols_per_row  # Round up division
-    
-    plt.figure(figsize=(5 * cols_per_row, 5 * rows))
-    
-    for i, column in enumerate(df.columns):
-        plt.subplot(rows, cols_per_row, i + 1)
-        if df[column].dtype == 'object' or df[column].dtype.name == 'category':
-            sns.countplot(x=df[column])
-            plt.xticks(rotation=45, ha='right')
-        else:
-            df[column].hist()
-            plt.ylabel('Frequency')
-        plt.title(f'Distribution of {column}')
-    
-    plt.tight_layout()
-    plt.show()
+    # Ask about visualization for each column
+    for column in df.columns:
+        response = input(f"Do you want to plot the distribution for {column}? (yes/no): ").lower()
+        if response == 'yes':
+            plt.figure(figsize=(6, 4))
+            if df[column].dtype == 'object' or df[column].dtype.name == 'category':
+                sns.countplot(x=df[column])
+                plt.xticks(rotation=45, ha='right')
+                plt.title(f'Count Plot for {column}')
+            else:
+                df[column].hist()
+                plt.ylabel('Frequency')
+                plt.title(f'Histogram for {column}')
+            plt.show()
+
 
 # Example usage:
 # df = pd.read_csv('your_data.csv')
