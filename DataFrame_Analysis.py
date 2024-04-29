@@ -64,19 +64,6 @@ def analyze_dataframe(df):
                 df[column].hist()
                 plt.ylabel('Frequency')
                 plt.title(f'Histogram for {column}')
-
-            # Detecting outliers
-        outliers = detect_outliers(df[column])
-        if not outliers.empty:
-            print(f"Outliers detected: {len(outliers)}")
-
-            # Ask user if they want a box plot
-            plot_decision = input(f"Box plot for {column} to visualize outliers?: ").strip().lower()
-            if plot_decision == 'yes':
-                plt.figure(figsize=(6, 6))
-                plt.boxplot(df[column])
-                plt.title(f"Box Plot for {column}")
-                plt.show()
             plt.show()
 
 
