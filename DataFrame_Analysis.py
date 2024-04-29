@@ -39,12 +39,23 @@ def analyze_dataframe(df):
     #    print(f"\nStatistics for {column}:")
     print(df[column].describe())
 
+
+    # # Function to detect outliers
+    def detect_outliers(series):
+        Q1 = series.quantile(0.25)
+        Q3 = series.quantile(0.75)
+        IQR = Q3 - Q1
+        lower_bound = Q1 - 1.5 * IQR
+        upper_bound = Q3 + 1.5 * IQR
+        return series[(series < lower_bound) | (series > upper_bound)]
+
+    
     # Visualization of distributions
     # Ask about visualization for each column
     for column in df.columns:
-        response = input(f"Do you want to plot the distribution for {column}? (yes/no): ").lower()
+        response = input(f"Plot the distribution for {column}?: ").lower()
         if response == 'yes':
-            plt.figure(figsize=(6, 4))
+            plt.figure(figsize=(8, 4))
             if df[column].dtype == 'object' or df[column].dtype.name == 'category':
                 sns.countplot(x=df[column])
                 plt.xticks(rotation=45, ha='right')
@@ -53,6 +64,19 @@ def analyze_dataframe(df):
                 df[column].hist()
                 plt.ylabel('Frequency')
                 plt.title(f'Histogram for {column}')
+
+            # Detecting outliers
+        outliers = detect_outliers(df[column])
+        if not outliers.empty:
+            print(f"Outliers detected: {len(outliers)}")
+
+            # Ask user if they want a box plot
+            plot_decision = input(f"Box plot for {column} to visualize outliers?: ").strip().lower()
+            if plot_decision == 'yes':
+                plt.figure(figsize=(8, 4))
+                plt.boxplot(df[column])
+                plt.title(f"Box Plot for {column}")
+                plt.show()
             plt.show()
 
 
