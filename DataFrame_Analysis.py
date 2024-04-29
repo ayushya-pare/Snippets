@@ -55,7 +55,7 @@ def analyze_dataframe(df):
     for column in df.columns:
         response = input(f"Plot the distribution for {column}?: ").lower()
         if response == 'yes':
-            plt.figure(figsize=(8, 4))
+            plt.figure(figsize=(6, 6))
             if df[column].dtype == 'object' or df[column].dtype.name == 'category':
                 sns.countplot(x=df[column])
                 plt.xticks(rotation=45, ha='right')
@@ -73,7 +73,7 @@ def analyze_dataframe(df):
             # Ask user if they want a box plot
             plot_decision = input(f"Box plot for {column} to visualize outliers?: ").strip().lower()
             if plot_decision == 'yes':
-                plt.figure(figsize=(8, 4))
+                plt.figure(figsize=(6, 6))
                 plt.boxplot(df[column])
                 plt.title(f"Box Plot for {column}")
                 plt.show()
