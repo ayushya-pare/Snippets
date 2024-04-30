@@ -73,10 +73,6 @@ def analyze_dataframe(df):
                 plt.ylabel('Frequency')
                 plt.title(f'Histogram for {column}')
 
-                plt.subplot(122)  # Right subplot
-                sns.boxplot(y=df[column])
-                plt.title(f'Box Plot for {column}')
-
             plt.tight_layout()  # Adjust layout to prevent overlap
             plt.show()
 
