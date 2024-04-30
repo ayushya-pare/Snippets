@@ -55,7 +55,7 @@ def analyze_dataframe(df):
     for column in df.columns:
         response = input(f"Plot the distribution for {column}?: ").lower()
         if response == 'yes':
-            plt.figure(figsize=(10, 6))
+            plt.figure(figsize=(8, 6))
             if df[column].dtype == 'object' or df[column].dtype.name == 'category':
                 sns.countplot(x=df[column])
                 plt.xticks(rotation=45, ha='right')
