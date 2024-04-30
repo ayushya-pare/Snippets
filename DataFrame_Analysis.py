@@ -55,15 +55,29 @@ def analyze_dataframe(df):
     for column in df.columns:
         response = input(f"Plot the distribution for {column}?: ").lower()
         if response == 'yes':
-            plt.figure(figsize=(6, 4))
+            plt.figure(figsize=(12, 4))  # Create a wider figure to accommodate two plots side by side
+
+            # Determine if the column is categorical or numerical
             if df[column].dtype == 'object' or df[column].dtype.name == 'category':
+                plt.subplot(121)  # Left subplot
                 sns.countplot(x=df[column])
                 plt.xticks(rotation=45, ha='right')
                 plt.title(f'Count Plot for {column}')
+
+                plt.subplot(122)  # Right subplot
+                sns.boxplot(y=df[column])
+                plt.title(f'Box Plot for {column}')
             else:
+                plt.subplot(121)  # Left subplot
                 df[column].hist()
                 plt.ylabel('Frequency')
                 plt.title(f'Histogram for {column}')
+
+                plt.subplot(122)  # Right subplot
+                sns.boxplot(y=df[column])
+                plt.title(f'Box Plot for {column}')
+
+            plt.tight_layout()  # Adjust layout to prevent overlap
             plt.show()
 
 
