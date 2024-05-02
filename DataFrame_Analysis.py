@@ -35,9 +35,16 @@ def analyze_dataframe(df):
 
     # Statistics and detection of outliers for each numerical column
     print("\nStatistics and Outliers for each column:")
-    for column in df.select_dtypes(include=[np.number]).columns:
-        print(f"\nStatistics for {column}:")
-        print(df[column].describe())
+    df.describe()
+
+    # Correlation heatmap
+    numeric_cols = df.select_dtypes(include=[np.number]).columns
+    corr = df[numeric_cols].corr()
+
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(corr, annot=True, cmap='coolwarm')
+    plt.title('Correlation Heatmap')
+    plt.show()
 
     # Visualization of distributions for individual columns
     for column in df.columns:
