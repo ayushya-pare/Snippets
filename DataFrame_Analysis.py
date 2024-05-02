@@ -51,9 +51,7 @@ def analyze_dataframe(df):
 
     # Statistics and detection of outliers for each numerical column
     print("\nStatistics and Outliers for each numerical column:")
-    for column in df.select_dtypes(include=[np.number]).columns:
-        print(f"\nStatistics for {column}:")
-        print(df[column].describe())
+    df.describe()
 
     # Correlation heatmap
     numeric_cols = df.select_dtypes(include=[np.number]).columns
