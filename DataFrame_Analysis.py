@@ -60,7 +60,7 @@ def analyze_dataframe(df):
     corr = df[numeric_cols].corr()
 
     plt.figure(figsize=(10, 8))
-    sns.heatmap(corr, annot=True, cmap='coolwarm'    vmax=1,
+    sns.heatmap(corr, annot=True, cmap='coolwarm',    vmax=1,
         fmt=".2f",
         annot=True,
         center=0,
