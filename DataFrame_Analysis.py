@@ -71,6 +71,8 @@ def analyze_dataframe(df):
                 
                 plt.tight_layout()
                 plt.show()
+        elif response == 'exit':
+            break
 
 
    
