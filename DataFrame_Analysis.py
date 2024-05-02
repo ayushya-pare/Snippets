@@ -32,24 +32,36 @@ def analyze_dataframe(df):
             print("Null values removed.")
     else:
         print("\nNo null values in DataFrame.")
-    
+
     # Statistics and detection of outliers for each numerical column
     print("\nStatistics and Outliers for each column:")
-    #for column in df.select_dtypes(include=[np.number]).columns:
-    #    print(f"\nStatistics for {column}:")
-    print(df[column].describe())
+    for column in df.select_dtypes(include=[np.number]).columns:
+        print(f"\nStatistics for {column}:")
+        print(df[column].describe())
 
+    # Additional Exploratory Data Analysis
+    # Correlation heatmap
+    numeric_cols = df.select_dtypes(include=[np.number]).columns
+    corr = df[numeric_cols].corr()
 
-    # # Function to detect outliers
-    def detect_outliers(series):
-        Q1 = series.quantile(0.25)
-        Q3 = series.quantile(0.75)
-        IQR = Q3 - Q1
-        lower_bound = Q1 - 1.5 * IQR
-        upper_bound = Q3 + 1.5 * IQR
-        return series[(series < lower_bound) | (series > upper_bound)]
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(corr, annot=True, cmap='coolwarm')
+    plt.title('Correlation Heatmap')
+    plt.show()
 
-    
+    # Histograms and boxplots for all numerical features
+    plt.figure(figsize=(12, 8))
+    df[numeric_cols].hist(layout=(len(numeric_cols) // 3 + 1, 3), figsize=(12, 8))
+    plt.tight_layout()
+    plt.show()
+
+    plt.figure(figsize=(12, 8))
+    df[numeric_cols].boxplot(grid=False)
+    plt.xticks(rotation=45)
+    plt.title('Boxplot of All Features')
+    plt.tight_layout()
+    plt.show()
+
     # Visualization of distributions
     # Ask about visualization for each column
     for column in df.columns:
@@ -65,7 +77,6 @@ def analyze_dataframe(df):
                 plt.ylabel('Frequency')
                 plt.title(f'Histogram for {column}')
             plt.show()
-
 
 # Example usage:
 # df = pd.read_csv('your_data.csv')
