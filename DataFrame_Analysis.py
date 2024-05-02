@@ -39,45 +39,34 @@ def analyze_dataframe(df):
         print(f"\nStatistics for {column}:")
         print(df[column].describe())
 
-    # Additional Exploratory Data Analysis
-    # Correlation heatmap
-    numeric_cols = df.select_dtypes(include=[np.number]).columns
-    corr = df[numeric_cols].corr()
-
-    plt.figure(figsize=(10, 8))
-    sns.heatmap(corr, annot=True, cmap='coolwarm')
-    plt.title('Correlation Heatmap')
-    plt.show()
-
-    # Histograms and boxplots for all numerical features
-    plt.figure(figsize=(12, 8))
-    df[numeric_cols].hist(layout=(len(numeric_cols) // 3 + 1, 3), figsize=(12, 8))
-    plt.tight_layout()
-    plt.show()
-
-    plt.figure(figsize=(12, 8))
-    df[numeric_cols].boxplot(grid=False)
-    plt.xticks(rotation=45)
-    plt.title('Boxplot of All Features')
-    plt.tight_layout()
-    plt.show()
-
-    # Visualization of distributions
-    # Ask about visualization for each column
+    # Visualization of distributions for individual columns
     for column in df.columns:
         response = input(f"Plot the distribution for {column}?: ").lower()
         if response == 'yes':
-            plt.figure(figsize=(8, 6))
             if df[column].dtype == 'object' or df[column].dtype.name == 'category':
+                plt.figure(figsize=(8, 6))
                 sns.countplot(x=df[column])
                 plt.xticks(rotation=45, ha='right')
                 plt.title(f'Count Plot for {column}')
+                plt.show()
             else:
-                df[column].hist()
-                plt.ylabel('Frequency')
-                plt.title(f'Histogram for {column}')
-            plt.show()
+                # Creating histograms and boxplots for numeric columns
+                fig, axes = plt.subplots(1, 2, figsize=(12, 6))
+                
+                # Histogram plot
+                df[column].hist(ax=axes[0])
+                axes[0].set_ylabel('Frequency')
+                axes[0].set_title(f'Histogram for {column}')
+                
+                # Boxplot plot
+                df[[column]].boxplot(ax=axes[1], grid=False)
+                axes[1].set_title(f'Boxplot for {column}')
+                
+                plt.tight_layout()
+                plt.show()
 
+
+   
 # Example usage:
 # df = pd.read_csv('your_data.csv')
 # analyze_dataframe(df)
