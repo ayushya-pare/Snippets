@@ -4,6 +4,18 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 def analyze_dataframe(df):
+    
+    # Check if the first column is the index or unnamed, then remove it if necessary
+    if df.columns[0] == df.index.name or df.columns[0].startswith('Unnamed'):
+        print("\nThe first column is either the index or unnamed, removing it.")
+        df.drop(df.columns[0], axis=1, inplace=True)
+        if df.columns.size > 0:
+            print("\nThe new first column is:", df.columns[0])
+        else:
+            print("\nNo columns left after removal.")
+    else:
+        print("\nThe first column is not the index, it is:", df.columns[0])
+
     # Clean column names by removing spaces
     df.columns = df.columns.str.replace(' ', '_')
     
@@ -27,12 +39,6 @@ def analyze_dataframe(df):
     # Show columns and their data types
     print("\nColumns and their Data Types:")
     print(df.dtypes)
-
-    # Check if the first column is an index
-    if df.columns[0] == df.index.name:
-        print("\nThe first column is the index.")
-    else:
-        print("\nThe first column is not the index, it is:", df.columns[0])
 
     # Show unique values in each column
     print("\nUnique values in each column:")
@@ -68,13 +74,13 @@ def analyze_dataframe(df):
     # Visualization of count plots for categorical columns
     categorical_cols = df.select_dtypes(include=['object', 'category']).columns
     if len(categorical_cols) > 0:
-        fig, axes = plt.subplots(nrows=(len(categorical_cols) + 1) // 2, ncols=1, figsize=(12, 6))
-        fig.suptitle('Bar Plots for Categorical Columns')
-        axes = axes.flatten()  # Flatten axes array for easy iteration
+        #fig, axes = plt.subplots(nrows=(len(categorical_cols) + 1) // 2, ncols=1, figsize=(12, 6))
+        #fig.suptitle('Bar Plots for Categorical Columns')
+        #axes = axes.flatten()  # Flatten axes array for easy iteration
         for idx, column in enumerate(categorical_cols):
-            sns.countplot(x=df[column], ax=axes[idx])
-            axes[idx].set_title(f'Count Plot for {column}')
-            axes[idx].tick_params(axis='x', rotation=45)
+            sns.countplot(x=df[column])
+            #axes[idx].set_title(f'Count Plot for {column}')
+            #axes[idx].tick_params(axis='x', rotation=45)
         plt.tight_layout(rect=[0, 0.03, 1, 0.95])
         plt.show()
 
