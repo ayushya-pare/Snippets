@@ -50,7 +50,7 @@ def analyze_dataframe(df):
         print("\nNo null values in DataFrame.")
 
     # Statistics and detection of outliers for each numerical column
-    print("\nStatistics and Outliers for each numerical column:")
+    print("\nStatistics for the dataset:")
     df.describe()
 
     # Correlation heatmap
@@ -62,14 +62,14 @@ def analyze_dataframe(df):
     plt.title('Correlation Heatmap')
     plt.show()
 
-        # Normalize numerical columns and save in a temporary variable
+    # Normalize numerical columns and save in a temporary variable
     normalized_df = df.select_dtypes(include=[np.number]).apply(lambda x: (x - x.mean()) / x.std(), axis=0)
 
     # Visualization of count plots for categorical columns
     categorical_cols = df.select_dtypes(include=['object', 'category']).columns
     if len(categorical_cols) > 0:
-        fig, axes = plt.subplots(nrows=(len(categorical_cols) + 1) // 2, ncols=2, figsize=(12, 6))
-        fig.suptitle('Count Plots for Categorical Columns')
+        fig, axes = plt.subplots(nrows=(len(categorical_cols) + 1) // 2, ncols=1, figsize=(12, 6))
+        fig.suptitle('Bar Plots for Categorical Columns')
         axes = axes.flatten()  # Flatten axes array for easy iteration
         for idx, column in enumerate(categorical_cols):
             sns.countplot(x=df[column], ax=axes[idx])
