@@ -62,34 +62,38 @@ def analyze_dataframe(df):
     plt.title('Correlation Heatmap')
     plt.show()
 
-    # Visualization of distributions for individual columns
-    for column in df.columns:
-        response = input(f"Plot the distribution for {column}?: ").lower()
-        if response == 'yes':
-            if df[column].dtype == 'object' or df[column].dtype.name == 'category':
-                plt.figure(figsize=(8, 6))
-                sns.countplot(x=df[column])
-                plt.xticks(rotation=45, ha='right')
-                plt.title(f'Count Plot for {column}')
-                plt.show()
-            else:
-                # Creating histograms and boxplots for numeric columns
-                fig, axes = plt.subplots(1, 2, figsize=(12, 6))
-                
-                # Histogram plot
-                df[column].hist(ax=axes[0])
-                axes[0].set_ylabel('Frequency')
-                axes[0].set_title(f'Histogram for {column}')
+        # Normalize numerical columns and save in a temporary variable
+    normalized_df = df.select_dtypes(include=[np.number]).apply(lambda x: (x - x.mean()) / x.std(), axis=0)
 
-                # Boxplot plot
-                df[[column]].boxplot(ax=axes[1], grid=False)
-                axes[1].set_title(f'Boxplot for {column}')
+    # Visualization of count plots for categorical columns
+    categorical_cols = df.select_dtypes(include=['object', 'category']).columns
+    if len(categorical_cols) > 0:
+        fig, axes = plt.subplots(nrows=(len(categorical_cols) + 1) // 2, ncols=2, figsize=(12, 6))
+        fig.suptitle('Count Plots for Categorical Columns')
+        axes = axes.flatten()  # Flatten axes array for easy iteration
+        for idx, column in enumerate(categorical_cols):
+            sns.countplot(x=df[column], ax=axes[idx])
+            axes[idx].set_title(f'Count Plot for {column}')
+            axes[idx].tick_params(axis='x', rotation=45)
+        plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+        plt.show()
 
-                plt.tight_layout()
-                plt.show()
-        elif response == 'exit':
-            break
+    # Visualization of histograms for numerical columns
+    numerical_cols = df.select_dtypes(include=[np.number]).columns
+    if len(numerical_cols) > 0:
+        df.hist(column=numerical_cols, figsize=(12, 6), bins=15)
+        plt.suptitle('Histograms for Numerical Columns')
+        plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+        plt.show()
+
+    # Boxplots of all normalized numerical columns
+    if len(numerical_cols) > 0:
+        plt.figure(figsize=(12, 6))
+        ax = sns.boxplot(data = normalized_df)
+        plt.xticks(rotation=45)
+        plt.title('Boxplots of Normalized Numerical Columns')
+        plt.show()
+
 
 # Example usage:
 # df = pd.read_csv('your_data.csv')
-# analyze_dataframe(df)
