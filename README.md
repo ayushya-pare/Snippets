@@ -1,4 +1,4 @@
-** Install the package from GitHub**
+**Install the package from GitHub**
 
 import warnings
 
