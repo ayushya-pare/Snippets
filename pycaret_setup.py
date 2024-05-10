@@ -38,3 +38,47 @@ exp_clf = setup(data=data,
                 verbose=True,  # True, False
                 profile=False,  # True, False
                 session_id=123)
+
+
+best_models = compare_models(
+    fold = 5,
+    n_select=3,
+)
+
+11. choose the best model- create the best model (train_data) - tune the model
+
+# best model = Ridge
+best_model = best_models[0]
+best_model
+
+# Create model
+
+best_model_ = create_model('knn',fold = 5)
+
+# tune model
+
+tuned_model = tune_model(best_model_, fold = 5)
+
+11. Evaluate and visualize - class. report, AUC, feature,
+
+plot_model(tuned_model, plot='confusion_matrix')
+
+plot_model(tuned_model, plot='auc')
+
+
+
+12. Predict using test data with the best model (test_data)
+
+predict_model(tuned_model)
+
+13. Finalize model - fit onto the complete dataset
+
+final_model = finalize_model(tuned_model)
+
+14. Save the finalized model
+
+save_model(final_model,'final model')
+
+15. load the model and fit onto the new dataset
+
+final_model_ = load_model('final model')
