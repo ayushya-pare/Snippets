@@ -25,7 +25,7 @@ def analyze_dataframe(df):
         print(f"\n{num_duplicates} duplicate rows found.")
         response = input("Do you want to remove duplicates? (yes/no): ").lower()
         if response == 'yes':
-            df = df.drop_duplicates(inplace = Trure)
+            df.drop_duplicates(inplace = Trure)
             print("Duplicates removed.")
         else:
             print("Duplicates not removed.")
@@ -50,7 +50,7 @@ def analyze_dataframe(df):
         print("\nRows with null values found:")
         display(df[df.isnull().any(axis=1)])
         if input("Do you want to remove all rows with null values? (yes/no): ").lower() == 'yes':
-            df = df.dropna(inplace = True)
+            df.dropna(inplace = True)
             print("Null values removed.")
     else:
         print("\nNo null values in DataFrame.")
