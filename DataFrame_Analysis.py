@@ -68,6 +68,18 @@ def analyze_dataframe(df):
     plt.title('Correlation Heatmap')
     plt.show()
 
+    #Separate categorical and numberical columns
+    cat_col = df.dtypes[df.dtypes == 'object']
+    num_col = df.dtypes[df.dtypes != 'object']
+
+    for col in list(cat_col.index):
+    print(f"--------------------{col.title()}-------------------------")
+    total= df[col].value_counts()
+    percent = df[col].value_counts() / df.shape[0]
+    df = pd.concat([total,percent],keys = ['total','percent'],axis = 1)
+    print(df)
+    print('\n')
+
     # Normalize numerical columns and save in a temporary variable
     normalized_df = df.select_dtypes(include=[np.number]).apply(lambda x: (x - x.mean()) / x.std(), axis=0)
 
