@@ -76,8 +76,8 @@ def analyze_dataframe(df):
         print(f"--------------------{col.title()}-------------------------")
         total= df[col].value_counts()
         percent = df[col].value_counts() / df.shape[0]
-        df = pd.concat([total,percent],keys = ['total','percent'],axis = 1)
-        print(df)
+        df_col = pd.concat([total,percent],keys = ['total','percent'],axis = 1)
+        print(df_col)
         print('\n')
 
     # Normalize numerical columns and save in a temporary variable
