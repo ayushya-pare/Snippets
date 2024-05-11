@@ -25,7 +25,7 @@ def analyze_dataframe(df):
         print(f"\n{num_duplicates} duplicate rows found.")
         response = input("Do you want to remove duplicates? (yes/no): ").lower()
         if response == 'yes':
-            df.drop_duplicates(inplace = Trure)
+            df.drop_duplicates(inplace = True)
             print("Duplicates removed.")
         else:
             print("Duplicates not removed.")
