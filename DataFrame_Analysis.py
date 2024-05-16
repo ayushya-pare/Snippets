@@ -115,3 +115,40 @@ def analyze_dataframe(df):
 
 # Example usage:
 # df = pd.read_csv('your_data.csv')
+def eda(df):
+    from IPython.display import display
+    
+    # Separate categorical and numeric columns
+    cat_col = df.select_dtypes(include=['object', 'category'])
+    num_col = df.select_dtypes(include=['number'])
+    
+    # Display categorical columns
+    print(f"--------------------Categorical features -------------------------")
+    for col in cat_col.columns:
+        print(f"--------------------{col.title()}-------------------------")
+        display(df[col].value_counts())
+        fig, ax = plt.subplots(figsize=(6, 4))
+        sns.countplot(x=col, data=df, ax=ax)
+        ax.set_xlabel(col, fontsize=12)
+        ax.set_ylabel('Value', fontsize=12)
+        plt.xticks(rotation=90)
+        plt.show()
+    
+    # Display numerical columns
+    print(f"--------------------Numerical features -------------------------")
+    
+    for col in num_col.columns:
+        print(f"--------------------{col.title()}-------------------------")
+        fig, axes = plt.subplots(1, 2, figsize=(14, 4))
+        
+        # Histogram
+        axes[0].hist(df[col], bins=30, edgecolor='k')
+        axes[0].set_xlabel(col, fontsize=12)
+        axes[0].set_ylabel('Frequency', fontsize=12)
+        
+        # Boxplot
+        sns.boxplot(x=col, data=df, ax=axes[1])
+        axes[1].set_xlabel(col, fontsize=12)
+        
+        plt.show()
+
