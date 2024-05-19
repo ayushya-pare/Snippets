@@ -79,6 +79,12 @@ def analyze_dataframe(df):
         df_col = pd.concat([total,percent],keys = ['total','percent'],axis = 1)
         print(df_col)
         print('\n')
+        fig, ax = plt.subplots(figsize=(6, 4))
+        sns.countplot(x=col, data=df, ax=ax)
+        ax.set_xlabel(col, fontsize=12)
+        ax.set_ylabel('Value', fontsize=12)
+        plt.xticks(rotation=90)
+        plt.show()
 
     # Normalize numerical columns and save in a temporary variable
     normalized_df = df.select_dtypes(include=[np.number]).apply(lambda x: (x - x.mean()) / x.std(), axis=0)
