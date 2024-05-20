@@ -89,24 +89,14 @@ def analyze_dataframe(df):
     # Normalize numerical columns and save in a temporary variable
     normalized_df = df.select_dtypes(include=[np.number]).apply(lambda x: (x - x.mean()) / x.std(), axis=0)
 
-    # Visualization of count plots for categorical columns
-    categorical_cols = df.select_dtypes(include=['object', 'category']).columns
-    if len(categorical_cols) > 0:
-        #fig, axes = plt.subplots(nrows=(len(categorical_cols) + 1) // 2, ncols=1, figsize=(12, 6))
-        #fig.suptitle('Bar Plots for Categorical Columns')
-        #axes = axes.flatten()  # Flatten axes array for easy iteration
-        for idx, column in enumerate(categorical_cols):
-            sns.countplot(x=df[column])
-            #axes[idx].set_title(f'Count Plot for {column}')
-            #axes[idx].tick_params(axis='x', rotation=45)
-        plt.tight_layout(rect=[0, 0.03, 1, 0.95])
-        plt.show()
+    print(f"--------------------Numerical features -------------------------")
 
     # Visualization of histograms for numerical columns
     numerical_cols = df.select_dtypes(include=[np.number]).columns
     if len(numerical_cols) > 0:
         df.hist(column=numerical_cols, figsize=(12, 6), bins=15)
         plt.suptitle('Histograms for Numerical Columns')
+        plt.xticks(rotation=90)
         plt.tight_layout(rect=[0, 0.03, 1, 0.95])
         plt.show()
 
@@ -114,8 +104,8 @@ def analyze_dataframe(df):
     if len(numerical_cols) > 0:
         plt.figure(figsize=(12, 6))
         ax = sns.boxplot(data = normalized_df)
-        plt.xticks(rotation=45)
-        plt.title('Boxplots of Normalized Numerical Columns')
+        plt.xticks(rotation=90)
+        plt.title('Boxplots Numerical Columns')
         plt.show()
 
 
