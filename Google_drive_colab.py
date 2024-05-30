@@ -7,3 +7,7 @@ os.chdir('/content/drive/My Drive/[The Dataset to be downloaded]')
 
 # Verify the contents
 !ls
+
+OR
+
+!unzip gdrive/My\ Drive/NN_Datasets/[the dataset to be downloaded in zip format].zip
